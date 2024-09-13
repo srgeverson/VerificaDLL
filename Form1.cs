@@ -22,7 +22,6 @@ namespace VerificaDLL
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool achou = false;
             RegistryKey clsid = Registry.ClassesRoot.OpenSubKey(CLSID);
             string[] ClsIDs = clsid.GetSubKeyNames();
             string subkey = "";
@@ -32,16 +31,9 @@ namespace VerificaDLL
                 if (subkey.Substring(0, 1) != "{") continue;
                 RegistryKey cls = Registry.ClassesRoot.OpenSubKey(Path.Combine(CLSID, subkey, "InprocServer32"));
                 if (cls == null) continue;
-                //string x = cls.GetValue("", "").ToString();
                 var valor = cls.GetValue("", "").ToString();
                 if (!string.IsNullOrEmpty(valor))
                     LogAplicacao(valor);
-
-                //if (x.IndexOf(nomeDLL) >= 0)
-                //{
-                //    achou = true;
-                //    break;
-                //}
             }
         }
         public void LogAplicacao(string texto)
@@ -50,7 +42,7 @@ namespace VerificaDLL
             {
                 try
                 {
-                    streamWriter.WriteLine(string.Format("Log:: {0} -> {1}", texto, DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")));
+                    streamWriter.WriteLine(string.Format(texto));
                 }
                 catch (Exception e)
                 {
